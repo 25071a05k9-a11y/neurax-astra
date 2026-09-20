@@ -129,7 +129,8 @@ ASTRA/
 │   └── normal/                   # Defect-free surface test samples
 │
 ├── docs/                         # Extended Documentation
-│   └── NEURAX_HACKATHON_PROPOSAL.md # Complete hackathon technical proposal
+│   ├── NEURAX_HACKATHON_PROPOSAL.md # Complete hackathon technical proposal
+│   └── ASTRA_Manufacturing_Intelligence_8_Slide_Deck.pptx # 8-slide presentation deck
 │
 ├── START_ALL.bat                 # 1-Click launcher script
 ├── start_backend.bat
@@ -142,6 +143,8 @@ ASTRA/
 The repository includes representative production CSVs in `sample_data/` and curated inspection images in `sample_images/` for local demos and testing. The same CSVs are also available in `backend/` because the backend scans that directory for bundled datasets.
 
 Local configuration and generated runtime state are intentionally excluded from Git: `frontend/.env`, Python/Node caches, runtime logs, SQLite databases, uploaded files, and generated inspection artifacts. Copy `frontend/.env.example` to `frontend/.env` for local agent configuration.
+
+The accompanying [8-slide presentation deck](docs/ASTRA_Manufacturing_Intelligence_8_Slide_Deck.pptx) is included under `docs/`.
 
 ---
 
