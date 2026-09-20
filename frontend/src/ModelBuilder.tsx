@@ -1,0 +1,9 @@
+import {useState} from 'react';
+import {CheckCheck,ChevronRight,Factory,Search} from 'lucide-react';
+import {Badge} from './components';
+import {architectureNames,architectureOf,type Facility} from './models';
+
+export function ModelPicker({models,selected,onSelect}:{models:Facility[];selected:number;onSelect:(id:number)=>void}){
+ const [search,setSearch]=useState('');const visible=models.filter(f=>(f.name+' '+f.subtitle+' model '+f.id).toLowerCase().includes(search.toLowerCase()));
+ return <div className="model-picker"><div className="model-picker-intro"><div><p>Choose one of the three manufacturing environments backed by the loaded datasets.</p><small>{models.length} dataset models available</small></div></div><label className="search-input large"><Search size={16}/><input placeholder="Find a production model…" aria-label="Find a production model" value={search} onChange={e=>setSearch(e.target.value)}/></label><div className="model-picker-list">{visible.map(f=><div className={`model-picker-card ${selected===f.id?'selected':''}`} key={f.id}><button className="model-picker-main" onClick={()=>onSelect(f.id)}><div className="model-picker-symbol"><Factory size={24} strokeWidth={1.3}/></div><div className="model-picker-copy"><div className="row"><strong>{f.name}</strong>{selected===f.id&&<CheckCheck size={15}/>}</div><p>{f.subtitle}</p><div className="row"><Badge tone={selected===f.id?'green':'neutral'}>Model {f.id}</Badge><span>{f.stations.length} stages</span><span>·</span><span>{architectureNames[architectureOf(f)]}</span></div></div><ChevronRight size={17}/></button></div>)}</div>{!visible.length&&<div className="empty"><Search size={23}/><h3>No matching production models.</h3></div>}<div className="picker-foot"><span>Production values are loaded from backend datasets, not local model assumptions.</span></div></div>
+}

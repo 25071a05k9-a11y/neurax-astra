@@ -1,0 +1,28 @@
+import fs from 'node:fs';
+const root='C:/NURAX/astra-showcase/src/';
+let a=fs.readFileSync(root+'App.tsx','utf8');
+function replace(from,to){if(!a.includes(from))throw new Error('Missing edit: '+from.slice(0,100));a=a.replaceAll(from,to)}
+replace("import {Badge,Count", "import {ModelBuilder,ModelPicker} from './ModelBuilder';\nimport {loadModels,saveModels,initialModel,type Facility} from './models';\nimport {Badge,Count");
+replace("const [model,setModel]=useState(2);", "const [customModels,setCustomModels]=useState<Facility[]>(loadModels);const models:Facility[]=[...facilities,...customModels];const [builder,setBuilder]=useState(false);const [editingModel,setEditingModel]=useState<Facility|null>(null);const [model,setModel]=useState(initialModel);");
+replace("const [station,setStation]=useState(2);", "const [selectedStation,setStation]=useState(2);");
+replace("const facility=facilities.find(f=>f.id===model)!;", "const facility=models.find(f=>f.id===model)||models[1];const station=Math.min(selectedStation,facility.stations.length-1);const constraint=facility.util.indexOf(Math.max(...facility.util));");
+replace("Math.min(99.3,facility.yield+(factor-1)*10)", "Math.max(0,Math.min(100,facility.yield+(factor-1)*10))");
+replace("const latestModel=useRef(model);latestModel.current=model;", "const latestModel=useRef('');latestModel.current=JSON.stringify([model,scenario,facility.rate,facility.wip,capacity,demand]);");
+replace("setStation(model===3?1:2)", "setStation(constraint)");
+replace("[model,scenario]);", "[model,scenario,facility.rate,facility.wip,facility.yield,facility.updatedAt]);");
+replace("facility.stations[model===3?1:2]", "facility.stations[constraint]");
+replace(" is nearing capacity. Explore the evidence before your next move.", " {facility.util[constraint]>=94?'is nearing capacity. Explore the evidence before your next move.':'has the highest configured loading. Explore the production context.'}");
+replace("{batches.map(b=><option key={b.id}>{b.id}</option>)}", "");
+replace("<span>Synthetic data</span>", "<span>{facility.custom?'Your model · demo assumptions':'Synthetic data'}</span>");
+replace("{facilities.map(f=><button className={`panel facility-card", "{models.map(f=><button className={`panel facility-card");
+replace("<div className=\"facility-cards\">", "<div className=\"model-library-heading\"><div><span className=\"eyebrow\">PRODUCTION MODEL LIBRARY</span><h2>Your floor. Your configuration.</h2></div><button className=\"btn primary\" onClick={()=>{setEditingModel(null);setBuilder(true)}}><Plus size={15}/>Create model</button></div><div className=\"facility-cards\">");
+replace("{model===f.id?'Selected facility':`Model ${f.id}`}", "{model===f.id?'Selected facility':f.custom?'Your model':`Model ${f.id}`}");
+replace("{Math.round(wip*(station===2?.62:.13))", "{Math.round(wip*(station===constraint?.62:.13))");
+replace("{station===2?'97th':'72nd'}", "{station===constraint?'97th':'72nd'}");
+replace("Math.min(3,station+1)", "Math.min(facility.stations.length-1,station+1)");
+replace("<dd>Synthetic frontend scenario fixtures</dd>", "<dd>{facility.custom?'User-configured demo assumptions':'Synthetic frontend scenario fixtures'}</dd>");
+const oldPicker="{modal==='Facility'&&<div className=\"facility-options\">{facilities.map(f=><button key={f.id} className={model===f.id?'selected':''} onClick={()=>{setModel(f.id);setModal('')}}><span className=\"workspace-icon\"><Factory size={21}/></span><div><strong>Model {f.id} · {f.name}</strong><p>{f.subtitle}</p></div>{model===f.id?<Check size={19}/>:<ChevronRight size={19}/>}</button>)}</div>}";
+replace(oldPicker,"{modal==='Facility'&&<ModelPicker models={models} selected={model} onSelect={id=>{setModel(id);setModal('')}} onCreate={()=>{setModal('');setEditingModel(null);setBuilder(true)}} onEdit={f=>{setModal('');setEditingModel(f);setBuilder(true)}}/>}");
+replace(" {logDetail&&<Modal", " {builder&&<ModelBuilder existing={editingModel} models={models} onClose={()=>setBuilder(false)} onSave={async f=>{const next=[...customModels.filter(m=>m.id!==f.id),f];saveModels(next);setCustomModels(next);setStation(0);setModel(f.id);setScenario('SC-2048');await mockApi.request('/api/models',{...f,storage:'local browser'},{saved:true,modelId:f.id,source:'user-configured demo'});setBuilder(false);go('Overview');setToast(`${f.name} saved. Your model is ready across the workspace.`)}}/>}\n {logDetail&&<Modal");
+replace(" useEffect(()=>{document.documentElement.dataset.theme", " useEffect(()=>{try{localStorage.setItem('astra-active-model-v1',String(model))}catch{}},[model]);\n useEffect(()=>{const nodes=document.querySelectorAll('.page-content > .panel,.overview-main,.overview-lower,.showcase,.metrics .metric');const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('revealed');observer.unobserve(e.target)}}),{threshold:.07});nodes.forEach((n,i)=>{n.classList.add('scroll-reveal');(n as HTMLElement).style.setProperty('--reveal-delay',`${i%4*65}ms`);observer.observe(n)});return()=>observer.disconnect()},[page]);\n useEffect(()=>{document.documentElement.dataset.theme");
+fs.writeFileSync(root+'App.tsx',a);

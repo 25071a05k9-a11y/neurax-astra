@@ -1,0 +1,16 @@
+import fs from 'node:fs';const p='C:/NURAX/astra-showcase/src/App.tsx';let s=fs.readFileSync(p,'utf8');
+function edit(a,b){if(!s.includes(a))throw new Error('Missing '+a.slice(0,80));s=s.replaceAll(a,b)}
+edit('Activity,ArrowDown,','PanelLeftClose,PanelLeftOpen,Activity,ArrowDown,');
+edit("const [page,setPage]=useState('Overview');", "const [page,setPage]=useState('Overview');const [collapsed,setCollapsed]=useState(false);const sidebarRef=useRef<HTMLElement>(null);const [navTop,setNavTop]=useState(0);");
+edit(" useEffect(()=>{try{localStorage.setItem('astra-active-model-v1'", " useEffect(()=>{const update=()=>{const active=sidebarRef.current?.querySelector('.nav-item.active') as HTMLElement|undefined;if(active)setNavTop(active.offsetTop)};update();const observer=new ResizeObserver(update);if(sidebarRef.current)observer.observe(sidebarRef.current);return()=>observer.disconnect()},[page,collapsed]);\n useEffect(()=>{try{localStorage.setItem('astra-active-model-v1'");
+edit('<div className="app-shell"><aside className="sidebar">', '<div className={`app-shell ${collapsed?\'nav-collapsed\':\'\'}`}><aside className="sidebar" ref={sidebarRef}><div className="nav-glider" style={{transform:`translateY(${navTop}px)`}}/><button className="sidebar-collapse" aria-label={collapsed?\'Expand navigation\':\'Collapse navigation\'} title={collapsed?\'Expand navigation\':\'Collapse navigation\'} onClick={()=>setCollapsed(!collapsed)}>{collapsed?<PanelLeftOpen size={16}/>:<PanelLeftClose size={16}/>}</button>');
+edit('<button className="workspace" onClick={()=>setModal(\'Facility\')}>', '<button className="workspace" aria-label="Choose production model" onClick={()=>setModal(\'Facility\')}>');
+edit('<strong>Manufacturing</strong><small>Intelligence workspace</small>', '<strong>{facility.name}</strong><small>Model {facility.id} · {facility.stations.length} stages <i className="tiny green"/></small>');
+edit('<div className="nav-label">INTELLIGENCE</div>', '<button className="sidebar-new-model" title="Create production model" onClick={()=>{setEditingModel(null);setBuilder(true)}}><Plus size={15}/><span>New production model</span><kbd>+</kbd></button><div className="nav-label">INTELLIGENCE</div>');
+edit('className={`nav-item ${page===id?\'active\':\'\'}`} onClick', 'className={`nav-item ${page===id?\'active\':\'\'}`} title={id} aria-label={id} onClick');
+edit('className={`nav-item ${page===\'Batches\'?\'active\':\'\'}`} onClick', 'className={`nav-item ${page===\'Batches\'?\'active\':\'\'}`} title="Batches and models" aria-label="Batches and models" onClick');
+edit('className={`nav-item ${page===\'System\'?\'active\':\'\'}`} onClick', 'className={`nav-item ${page===\'System\'?\'active\':\'\'}`} title="System health" aria-label="System health" onClick');
+edit('className={`nav-item ${page===\'Developer\'?\'active\':\'\'}`} onClick', 'className={`nav-item ${page===\'Developer\'?\'active\':\'\'}`} title="Developer logs" aria-label="Developer logs" onClick');
+edit('<span>Batches & data</span>', '<span>Batches & models</span>');
+edit('<button aria-label={theme===\'light\'?\'Switch to dark theme\':\'Switch to light theme\'}', '<button className="theme-toggle" aria-label={theme===\'light\'?\'Switch to dark theme\':\'Switch to light theme\'}');
+fs.writeFileSync(p,s);

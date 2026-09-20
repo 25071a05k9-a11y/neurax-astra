@@ -1,0 +1,12 @@
+fastapi>=0.128,<1
+uvicorn[standard]>=0.48,<1
+python-multipart>=0.0.20,<1
+numpy>=2.0,<3
+opencv-python-headless>=4.10,<5
+joblib>=1.4,<2
+scipy>=1.14,<2
+pandas>=2.2,<3
+httpx>=0.28,<1
+pytest>=8,<9
+scikit-learn>=1.9.1,<2
+Pillow>=10.0,<12

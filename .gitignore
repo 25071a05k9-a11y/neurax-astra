@@ -1,0 +1,41 @@
+# Secrets and machine-specific configuration
+**/.env
+**/.env.*
+!**/.env.example
+
+# Python environments, caches, and compiled files
+**/__pycache__/
+*.py[cod]
+**/.pytest_cache/
+**/.mypy_cache/
+**/.ruff_cache/
+**/.venv/
+**/venv/
+
+# JavaScript dependencies and local tool output
+**/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Runtime logs
+runtime-logs/
+**/*.log
+
+# Runtime databases, uploads, generated artifacts, and caches
+backend/app/data/astra.db
+backend/app/data/astra.sqlite3*
+backend/app/data/artifacts/*
+backend/app/data/cache/*
+backend/app/data/uploads/*
+backend/app/data/raw/*
+!backend/app/data/cache/.gitkeep
+!backend/app/data/uploads/.gitkeep
+!backend/app/data/raw/.gitkeep
+
+# Local OS/editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
