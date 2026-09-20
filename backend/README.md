@@ -11,8 +11,9 @@ python -m venv .venv
 # Windows: .venv\Scripts\activate
 # macOS/Linux: source .venv/bin/activate
 python -m pip install -r requirements.txt
-python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
+python -m uvicorn app.main:app --host 127.0.0.1 --port 5000 --reload
 ```
+The standard ASTRA stack uses port **5000** for this deterministic backend and port **8000** for the AI agent server. Use port 5000 here unless you also update `ASTRA_DETERMINISTIC_BACKEND_URL` and the frontend proxy configuration.
 
 The supplied `defect_detector.py` and `defect_classifier.joblib` are copied unchanged into `app/services/vision/` and wrapped by `VisionService`.
 
@@ -46,5 +47,7 @@ CSV files named `model1*.csv`, `model2*.csv`, or `model3*.csv` in `app/data/raw/
 ## Tests
 
 ```bash
-python -m pytest -q
+python -m pytest -q tests
 ```
+
+This targets the current modular FastAPI test suite. The older standalone scripts in the backend root are retained for reference.

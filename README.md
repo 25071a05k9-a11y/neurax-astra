@@ -4,6 +4,8 @@
 **Problem Statement:** Visual Inspection & Defect Root-Cause Assistant  
 **Pipeline:** Detect → Localize → Verify → Investigate → Quantify → Simulate → Recommend
 
+**Repository:** https://github.com/25071a05k9-a11y/neurax-astra
+
 ---
 
 ## 🚀 Quick Start Guide
@@ -20,6 +22,9 @@ The backend provides deterministic computer vision defect detection, discrete-ev
 
 ```bash
 cd backend
+python -m venv .venv
+# Windows: .venv\Scripts\activate
+# macOS/Linux: source .venv/bin/activate
 python -m pip install -r requirements.txt
 python app.py
 ```
@@ -28,8 +33,9 @@ python app.py
 Alternatively, you can run the modular FastAPI server:
 ```bash
 cd backend
-python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
+python -m uvicorn app.main:app --host 127.0.0.1 --port 5000 --reload
 ```
+Use this instead of `python app.py` when you want auto-reload.
 
 ---
 
@@ -38,6 +44,9 @@ The Agent Server orchestrates LLM reasoning, LangChain tool execution, live tool
 
 ```bash
 cd frontend
+npm install
+# Windows: copy .env.example .env
+# macOS/Linux: cp .env.example .env
 node agent_server.mjs
 ```
 > Listens at **`http://127.0.0.1:8000`**. Configure your model provider in `frontend/.env`.
@@ -49,7 +58,6 @@ The frontend features a cybernetic 3D digital twin factory (Three.js), real-time
 
 ```bash
 cd frontend
-npm install
 npm run dev
 ```
 > Open your browser at **`http://localhost:5173`**.
@@ -86,7 +94,7 @@ ASTRA/
 │   ├── lib/                      # Agent core, AGY provider, tool registry
 │   ├── agent_server.mjs          # Node.js LangChain / Agent server
 │   ├── package.json              # Frontend & agent dependencies
-│   ├── vite.config.ts            # Proxy configuration to backend (Port 8000)
+│   ├── vite.config.ts            # Proxy configuration to the agent server (Port 8000)
 │   └── .env.example              # Environment variables template
 │
 ├── backend/                      # Deterministic Python Backend & Engines
@@ -100,7 +108,7 @@ ASTRA/
 │   ├── economic_engine.py        # Scrap, downtime, and cost calculation
 │   ├── investigation_service.py  # Root-cause analysis & hypothesis generation
 │   ├── simulation_service.py     # What-if nearest-scenario matching
-│   ├── app/                      # Modular FastAPI application alternative
+│   ├── app/                      # FastAPI application implementation
 │   └── requirements.txt          # Python dependencies
 │
 ├── sample_data/                  # Representative Dataset Samples
@@ -129,6 +137,12 @@ ASTRA/
 └── start_frontend.bat
 ```
 
+## 📦 Included Data
+
+The repository includes representative production CSVs in `sample_data/` and curated inspection images in `sample_images/` for local demos and testing. The same CSVs are also available in `backend/` because the backend scans that directory for bundled datasets.
+
+Local configuration and generated runtime state are intentionally excluded from Git: `frontend/.env`, Python/Node caches, runtime logs, SQLite databases, uploaded files, and generated inspection artifacts. Copy `frontend/.env.example` to `frontend/.env` for local agent configuration.
+
 ---
 
 ## 🔬 Core Capabilities
@@ -149,3 +163,20 @@ ASTRA/
 6. **3D Digital Twin Factory**:
    - Interactive 3D scene built with Three.js.
    - Continuous conveyor belt motion, machine processing portals, and synchronized robotic arm kinematics.
+
+---
+
+## ✅ Validation
+
+Run the supported smoke checks from the repository root:
+
+```bash
+cd backend
+python -m pytest -q tests
+
+cd ../frontend
+npm install
+npm run build
+```
+
+The modular backend test suite covers the current FastAPI service. The older standalone scripts in `backend/` are retained for reference and are not the primary test entry point.
