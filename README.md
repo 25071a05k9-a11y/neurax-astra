@@ -13,7 +13,7 @@
 ### Prerequisites
 - **Node.js**: v18+ (tested on Node v20/v22)
 - **Python**: 3.10+ (tested on Python 3.12)
-- Optional: `agy` CLI or OpenAI/Gemini API key for the AI Copilot agent.
+- Optional: provider credentials for the AI Copilot agent.
 
 ---
 
@@ -91,7 +91,7 @@ ASTRA/
 │   │   ├── robotMotion.ts        # 6-DOF robotic arm kinematics
 │   │   └── styles.css            # Cybernetic industrial styling
 │   ├── dist/                     # Pre-compiled production build bundle
-│   ├── lib/                      # Agent core, AGY provider, tool registry
+│   ├── lib/                      # Agent core, provider integration, tool registry
 │   ├── agent_server.mjs          # Node.js LangChain / Agent server
 │   ├── package.json              # Frontend & agent dependencies
 │   ├── vite.config.ts            # Proxy configuration to the agent server (Port 8000)
@@ -158,7 +158,7 @@ Local configuration and generated runtime state are intentionally excluded from 
 4. **Economic Impact Assessment**:
    - Quantifies lost output, downtime cost, scrap cost, and profit margins.
 5. **AI Copilot & Live Tool Execution Trace UI**:
-   - Integrates LangChain / AGY reasoning with real deterministic tools.
+   - Integrates LangChain-based reasoning with real deterministic tools.
    - Shows live collapsible tool execution cards with inputs, duration, and formatted JSON/markdown outputs.
 6. **3D Digital Twin Factory**:
    - Interactive 3D scene built with Three.js.
